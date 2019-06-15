@@ -10,8 +10,7 @@ var ticketsRouter = require('./routes/tickets');
 
 
 const mongoClient = require("mongodb").MongoClient;
-const client=new mongoClient("mongodb://localhost:27017");
-
+const client = new mongoClient("mongodb+srv://USERNAME:PASSWORD@ticketingsystem-a9go6.mongodb.net/test?retryWrites=true&w=majority");
 var app = express();
 
 let DB = null;
@@ -22,7 +21,7 @@ app.use(async (req, res, next) => {
             req.db = DB;
         } else {
             await client.connect();
-            DB = client.db('ticketing'); //we can write any db name 
+            DB = client.db('mwaproject'); //we can write any db name
             req.db = DB;
         }
         next()
@@ -48,19 +47,21 @@ app.use('/tickets', ticketsRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
+
+app.listen(3000, () => console.log(`Example app listening on port ${3000}!`))
 
 module.exports = app;
