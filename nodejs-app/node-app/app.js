@@ -3,27 +3,23 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors =require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ticketsRouter = require('./routes/tickets');
 
-
-const mongoClient = require("mongodb").MongoClient;
-const client = new mongoClient("mongodb+srv://USERNAME:PASSWORD@ticketingsystem-a9go6.mongodb.net/test?retryWrites=true&w=majority");
+const mongoose = require("mongoose");
+mongoose.connect("mongodb+srv://USERNAME:PASSWORD@ticketingsystem-a9go6.mongodb.net/test?retryWrites=true&w=majority");
 var app = express();
 
-let DB = null;
+let DB= mongoose.connection;   //not sure yet how we will use it I will recheck the lecture
 
 app.use(async (req, res, next) => {
     try {
         if (DB) {
             req.db = DB;
-        } else {
-            await client.connect();
-            DB = client.db('mwaproject'); //we can write any db name
-            req.db = DB;
-        }
+        } 
         next()
     } catch (error) {
         console.log(error)
@@ -40,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tickets', ticketsRouter);
