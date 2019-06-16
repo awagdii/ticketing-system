@@ -3,23 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors =require('cors');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ticketsRouter = require('./routes/tickets');
+const User = require('./model/User');
+const Ticket = require('./model/Ticket');
+const CONSTS = require('./utils/constants');
+const DB_CONFIG = require('./utils/db-config');
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://USERNAME:PASSWORD@ticketingsystem-a9go6.mongodb.net/test?retryWrites=true&w=majority");
+mongoose.connect(`mongodb+srv://${DB_CONFIG.USER_NAME}:${DB_CONFIG.PASSWORD}@ticketingsystem-a9go6.mongodb.net/test?retryWrites=true&w=majority`);
 var app = express();
-
-let DB= mongoose.connection;   //not sure yet how we will use it I will recheck the lecture
 
 app.use(async (req, res, next) => {
     try {
-        if (DB) {
-            req.db = DB;
-        } 
         next()
     } catch (error) {
         console.log(error)
