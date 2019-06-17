@@ -1,4 +1,4 @@
 module.exports = {
-    USER_NAME: "",
-    PASSWORD: ""
+    USER_NAME: "dbUser",
+    PASSWORD: "team4"
 }

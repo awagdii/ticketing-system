@@ -10,7 +10,7 @@ export class UsersService {
 
   saveUser(user)
   {
-    return this.http.post('http://localhost:3000/users/',user.value);
+    return this.http.post('http://localhost:3000/users/', user.value);
   }
 
   login(data): Observable<any> {

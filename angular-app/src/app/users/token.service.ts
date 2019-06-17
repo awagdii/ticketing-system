@@ -13,6 +13,13 @@ export class TokenService {
     localStorage.setItem("token", data);
   }
 
+  delete()
+  {
+    localStorage.removeItem("token");
+  }
+
+
+
   getUserInfo(){
     let token = this.fetch();
     console.log(token);
