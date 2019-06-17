@@ -12,8 +12,8 @@ const ticket = new mongoose.Schema({
     },
     createdAt: Date,
     created_by: User.schema,
-    assigned_employee: User.schema,
-    resolve_comments: [String]
+    assigned_employee: User.schema,  //shouldn't we only add user id or this is how it should work?
+    resolve_comments: [String] //why array? it is just one comment
 });
 
 ticket.pre('save', function (next) {
