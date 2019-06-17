@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 const myRoutes: Routes = [
@@ -17,7 +18,7 @@ const myRoutes: Routes = [
 		HomeComponent
 	],
 	imports: [
-		BrowserModule,RouterModule.forRoot(myRoutes)
+		BrowserModule,HttpClientModule,RouterModule.forRoot(myRoutes)
 	],
 	providers: [],
 	bootstrap: [AppComponent]

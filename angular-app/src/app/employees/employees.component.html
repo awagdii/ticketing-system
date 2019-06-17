@@ -1,3 +1,17 @@
-<p>
-   this is Employees componant !
-</p>
+<div>
+  <table>
+    <tr>
+      <th>description</th>
+      <th>created_by</th>
+      <th>status</th>
+      <th>createdAt</th>
+    </tr>
+    <tr *ngFor="let ticket of openTickets">
+      <td>{{ticket.description}}</td>
+      <td>{{ticket.created_by.user_name}}</td>
+      <td>{{ticket.status}}</td>
+      <td>{{ticket.createdAt}}</td>
+      <td><button>Assign</button></td>
+    </tr>
+  </table>
+</div>
