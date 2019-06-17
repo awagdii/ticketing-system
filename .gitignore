@@ -1,3 +1,5 @@
 /angular-app/node_modules
 /nodejs-app/node_modules
 /nodejs-app/node-app/node_modules
+/nodejs-app/node-app/private-key.txt
+/nodejs-app/node-app/public-key.txt
