@@ -50,7 +50,18 @@ export class EmployeesComponent implements OnInit {
     console.log(res)
     if (res.success) {
       this.toastr.success(res.success, 'Congratulations  ..!');
-    }else{
+      let selectedTicketElement = this.openTickets.filter(obj => {
+
+        if (obj._id === ticketid)
+          return obj;
+
+      })
+      this.openTickets = this.openTickets.filter(obj => {
+        return obj._id !== ticketid;
+      })
+      this.dataSource = new MatTableDataSource<TicketElement>(this.openTickets);
+      this.dataSource.paginator = this.paginator;
+    } else {
       this.toastr.error(res.error, 'Failed  ..!');
 
     }
