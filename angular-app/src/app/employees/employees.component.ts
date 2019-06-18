@@ -27,6 +27,7 @@ export class EmployeesComponent implements OnInit {
         // this.openTickets.push(res);
         this.openTickets = this.openTickets.concat(res);
         this.dataSource = new MatTableDataSource<TicketElement>(this.openTickets);
+        console.log(this.dataSource);
         this.dataSource.paginator = this.paginator;
 
         console.log(res);
@@ -77,6 +78,7 @@ export interface TicketElement {
   user_name: string;
   status: string;
   createdAt: string;
+  created_by: Object;
 }
 
 

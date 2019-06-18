@@ -46,6 +46,12 @@ router.get('/opentickets', async function (req, res, next) {
 	const data = await Ticket.find({ status: CONSTS.TICKET_STATUS_OPEN });
 	res.json(data);
 });
+router.get('/inprogress', async function (req, res, next) {
+	empid=req.body.empid;
+	console.log(empid)
+	const data = await Ticket.find().where({status: CONSTS.TICKET_STATUS_IN_PROGRESS , 'assigned_employee.id' :empid});
+	res.json(data);
+});
 router.patch('/assign', async function (req, res, next) {
 	// console.log(req.body)
 	let ticketid = req.body.ticketid;
@@ -56,6 +62,18 @@ router.patch('/assign', async function (req, res, next) {
 		.where({ _id: ticketid });
 	if (data) {
 		res.status(200).json({ success: "Ticket Assigned Successfully to " + user.user_name });
+	} else {
+		res.json({ error: "Error Happend while processing your request" });
+	}
+});
+router.patch('/resolve', async function (req, res, next) {
+	// console.log(req.body)
+	let ticketid = req.body.ticketid;
+	let comment = req.body.comment;
+	const data = await Ticket.updateOne({ resolve_comment: comment, status: CONSTS.TICKET_STATUS_RESOLVED })
+		.where({ _id: ticketid });
+	if (data) {
+		res.status(200).json({ success: "Ticket Was Resolved Successfully With comment\n " + comment });
 	} else {
 		res.json({ error: "Error Happend while processing your request" });
 	}

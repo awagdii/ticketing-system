@@ -1,3 +1,7 @@
 GET  http://localhost:3000/tickets/opentickets
 
 ###
+
+GET  http://localhost:3000/tickets/inprogress/1
+
+###

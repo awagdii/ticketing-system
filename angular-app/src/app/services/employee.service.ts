@@ -30,6 +30,13 @@ export class EmployeeService {
     let url = CONSTS.SERVICE_BASE_URL + '/tickets/opentickets';
     return this.http.get(url);
   }
+
+  getInProgressTickets(empid): Observable<any> {
+    console.log('assignTicketToEmployee')
+    console.log({ empid })
+    let url = CONSTS.SERVICE_BASE_URL + '/tickets/inprogress';
+    return this.http.get(url, empid);
+  }
   assignTicketToCurrentEmployee(ticketid, empid): Promise<any> {
     console.log('assignTicketToEmployee')
 
@@ -38,5 +45,10 @@ export class EmployeeService {
 
     let url = CONSTS.SERVICE_BASE_URL + '/tickets/assign';
     return this.http.patch(url, { ticketid, empid }).toPromise();
+  }
+  resolveCurrentEmployeeTicket(ticketid, comment): Promise<any> {
+    console.log('resolveCurrentEmployeeTicket');
+    let url = CONSTS.SERVICE_BASE_URL + '/tickets/resolve';
+    return this.http.patch(url, { ticketid, comment }).toPromise();
   }
 }
