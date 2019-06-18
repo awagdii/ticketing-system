@@ -3,6 +3,7 @@ const User = require('./User')
 const CONSTS = require('../utils/constants');
 
 const ticket = new mongoose.Schema({
+    title: String,
     description: String,
     status: {
         type: String,
@@ -11,12 +12,12 @@ const ticket = new mongoose.Schema({
         default: CONSTS.TICKET_STATUS_OPEN
     },
     createdAt: {
-        type:Date,
-        default: Date.now()
+        value : Date,
+        defualt: Date.now()
     },
-    created_by: User.schema,
-    assigned_employee: User.schema,  //shouldn't we only add user id or this is how it should work?
-    resolve_comments: [String] //why array? it is just one comment
+    created_by: { user_name: String, email: String },
+    assigned_employee: { user_name: String, email: String },
+    resolve_comment: String
 });
 
 ticket.pre('save', function (next) {
@@ -31,19 +32,19 @@ ticket.pre('save', function (next) {
 module.exports = mongoose.model('Ticket', ticket);
 
 
-// create new Ticket example
-// newUser = new User({
-//     user_name: "username",
-//     email: "email@mum.edu",
-//     role: CONSTS.USER_ROLE_ADMIN
-// });
-// newTicket = new Ticket({
-//     description: 'description',
-//     status: CONSTS.TICKET_STATUS_OPEN,
-//     created_by: newUser,
-//     assigned_employee: newUser,
-//     resolve_comments: ['comment1','comment2']
-// });
-// let doc = await newTicket.save();
+        // // create new Ticket example
+        // for (let i = 1; i < 11; i++) {
+        //     newUser = await User.findOne();
+        //     console.log(newUser.user_name)
+        //     newTicket = new Ticket({
+        //         title: "Maintenance Issue " + i,
+        //         description: 'description ' + i,
+        //         status: CONSTS.TICKET_STATUS_OPEN,
+        //         created_by: { user_name: newUser.user_name, email: newUser.email },
+        //         assigned_employee: {},
+        //         resolve_comment: ''
+        //     });
+        //     let doc = await newTicket.save();
+        //     console.log(doc)
+        // }
 
-// console.log(doc)
