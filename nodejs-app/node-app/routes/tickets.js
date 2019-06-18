@@ -15,11 +15,27 @@ var router = express.Router();
 // 	});
 // 	// res.send('respond with a resource');
 // });
-router.post('/:customerid', function (req, res, next) {
+router.post('/', function (req, res, next) {
 	const db = req.db;
-	console.log('cust ' + req.params.customerid);
-	const userId = req.params.customerid;
 	const data = req.body;
+	console.log(data);
+	let myData = new Ticket();
+	myData.created_by = {
+		user_name: data.user_name,
+		id: data._id
+	};
+	myData.status = 'open';
+	myData.description = data.data.description;
+	myData.title = data.data.title;
+
+	myData.save().then(d => {
+		res.json({ success: true });
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500);
+		});
+
 	// const ticketValue = [{
 	// 	status : 'open',
 	// 	resolveComments: {
@@ -27,19 +43,21 @@ router.post('/:customerid', function (req, res, next) {
 	// 		1: ''
 	// 	},
 	// 	description : data.description
-	// }];
-	data.created_by = { '_id': new ObjectId(userId._id), 'user_name': userId.user_name, 'email': userId.email };
-	console.log(data);
-	let ticket = new Ticket(data);
-	console.log('ticket:' + ticket);
-	//ticket.created_by = new ObjectId(userId);
-	ticket.save().then(d => {
-		res.json({ success: true });
-	})
-		.catch(err => {
-			console.log(err);
-			res.status(500);
-		});
+	// // }];
+	// let ticket = new Ticket(data);
+	// console.log(ticket);
+	// data.created_by = { '_id': new ObjectId(userId._id), 'user_name': userId.user_name, 'email': userId.email };
+	// console.log(data);
+	// let ticket = new Ticket(data);
+	// console.log('ticket:' + ticket);
+	// //ticket.created_by = new ObjectId(userId);
+	// ticket.save().then(d => {
+	// 	res.json({ success: true });
+	// })
+	// 	.catch(err => {
+	// 		console.log(err);
+	// 		res.status(500);
+	// 	});
 	//	res.send('respond with a resource4');
 });
 router.get('/opentickets', async function (req, res, next) {
@@ -47,9 +65,9 @@ router.get('/opentickets', async function (req, res, next) {
 	res.json(data);
 });
 router.get('/inprogress', async function (req, res, next) {
-	empid=req.body.empid;
+	empid = req.body.empid;
 	console.log(empid)
-	const data = await Ticket.find().where({status: CONSTS.TICKET_STATUS_IN_PROGRESS , 'assigned_employee.id' :empid});
+	const data = await Ticket.find().where({ status: CONSTS.TICKET_STATUS_IN_PROGRESS, 'assigned_employee.id': empid });
 	res.json(data);
 });
 router.patch('/assign', async function (req, res, next) {

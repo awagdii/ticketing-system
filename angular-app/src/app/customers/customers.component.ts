@@ -15,8 +15,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 			</div>
 			<h3>Create new ticker</h3>
 			<form [formGroup] = "customerCreateTicket" (ngSubmit) = "onSubmit()"> 
-				Description : <textarea name="description" formControlName="description"> </textarea>
-				<button type="submit">Create</button>
+				<div> Title : <input name="title" formControlName="title" /></div>
+				
+				<div>Description : <textarea name="description" formControlName="description"> </textarea></div>
+				<div> <button type="submit">Create</button></div>
 			</form>
 		</div>
 		<br/>
@@ -67,7 +69,8 @@ export class CustomersComponent implements OnInit {
 
 	ngOnInit() {
 		this.customerCreateTicket = this.fBuilder.group({
-			description : ''
+			description : '',
+			title :''
 		});
 	}
 

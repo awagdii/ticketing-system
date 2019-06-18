@@ -19,7 +19,8 @@ export class CustomerService {
 
 	createTicket(datas) {
 		console.log("INSIDE CREATE TICKET");
-		let userId = this.tokenService.getUserInfo();
-		return this.http.post(`${CONSTS.SERVICE_BASE_URL}/tickets/`+userId,datas);
+		let userInfo = this.tokenService.getUserInfo();
+		userInfo.data = datas;
+		return this.http.post(`${CONSTS.SERVICE_BASE_URL}/tickets/`,userInfo);
 	}
 }
