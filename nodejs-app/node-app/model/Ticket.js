@@ -20,7 +20,7 @@ ticket.pre('save', function (next) {
 
     console.log('isNew  ' + this.isNew)
     if (this.isNew) {
-        this.createdAt = new Date() | Date;
+        this.createdAt = new Date() ;
     }
     next();
 });

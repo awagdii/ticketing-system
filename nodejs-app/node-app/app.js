@@ -61,7 +61,7 @@ const authMiddlerWare = (req, res, next) => {
 
   app.use('/users', usersRouter);
 //will add the middle here after creating interceptor [Eman]
-  app.use('/tickets',ticketsRouter,);
+  app.use('/tickets',ticketsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

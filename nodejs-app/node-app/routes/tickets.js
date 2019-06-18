@@ -6,7 +6,7 @@ const CONSTS = require('../utils/constants');
 
 var router = express.Router();
 //employee stuff
-/* GET open tickets listing for employee. */
+// /* GET open tickets listing for employee. */
 // router.get('/', function (req, res, next) {
 // 	const db = req.db;
 // 	db.collection('tickets').find().toArray(function (err, docs) {
@@ -44,7 +44,9 @@ router.post('/:id', function (req, res, next) {
 
 //customer stuff
 /* GET customers tickets */
-
+router.get('/customer', function (req, res, next) {
+	res.send('respond with a resource');
+});
 
 //create new ticket for the customer
 router.post('/:customerid', function (req, res, next) {

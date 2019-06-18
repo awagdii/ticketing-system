@@ -1,7 +1,7 @@
 var express = require('express');
 const fs = require("fs");
 var jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const mongoose = require("mongoose");
 const User=require("../model/User");
 

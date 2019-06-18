@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SignupComponent } from './users/signup/signup.component';
 import { LoginComponent } from './users/login/login.component';
 import { ErrorComponent } from './error/error.component';
 import { AuthguardGuard } from './authguard.guard';
-import { TicketComponent } from './ticket/ticket.component';
+import { TokenInterceptor } from './users/auth.interceptor';
 
 
 const myRoutes: Routes = [
@@ -26,14 +26,19 @@ const myRoutes: Routes = [
 	declarations: [
 		AppComponent,
     HomeComponent,
-    ErrorComponent,
-    TicketComponent
+    ErrorComponent
 	
 	],
 	imports: [
 		BrowserModule,HttpClientModule,RouterModule.forRoot(myRoutes)
 	],
-	providers: [],
+	providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
