@@ -15,8 +15,8 @@ const ticket = new mongoose.Schema({
         type : Date,
         default: Date.now()
     },
-    created_by: { user_name: String, email: String },
-    assigned_employee: { user_name: String, email: String },
+    created_by: { user_name: String, id: String },
+    assigned_employee: { user_name: String, id: String },
     resolve_comment: String
 });
 

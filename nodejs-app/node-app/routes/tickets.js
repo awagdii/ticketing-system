@@ -17,7 +17,7 @@ var router = express.Router();
 // });
 router.post('/:customerid', function (req, res, next) {
 	const db = req.db;
-	console.log('cust '+req.params.customerid);
+	console.log('cust ' + req.params.customerid);
 	const userId = req.params.customerid;
 	const data = req.body;
 	// const ticketValue = [{
@@ -28,28 +28,42 @@ router.post('/:customerid', function (req, res, next) {
 	// 	},
 	// 	description : data.description
 	// }];
-	data.created_by = {'_id':new ObjectId(userId._id),'user_name':userId.user_name,'email':userId.email};
+	data.created_by = { '_id': new ObjectId(userId._id), 'user_name': userId.user_name, 'email': userId.email };
 	console.log(data);
 	let ticket = new Ticket(data);
-	console.log('ticket:' +ticket);
+	console.log('ticket:' + ticket);
 	//ticket.created_by = new ObjectId(userId);
 	ticket.save().then(d => {
-		res.json({success:true});
+		res.json({ success: true });
 	})
-	.catch(err => {
-		console.log(err);
-		res.status(500);
-	});
-//	res.send('respond with a resource4');
+		.catch(err => {
+			console.log(err);
+			res.status(500);
+		});
+	//	res.send('respond with a resource4');
 });
 router.get('/opentickets', async function (req, res, next) {
 	const data = await Ticket.find({ status: CONSTS.TICKET_STATUS_OPEN });
 	res.json(data);
 });
+router.patch('/assign', async function (req, res, next) {
+	// console.log(req.body)
+	let ticketid = req.body.ticketid;
+	let empid = req.body.empid;
+	const user = await User.findOne({ _id: empid }).select({ user_name: 1, _id: 0 });
+	console.log(user.user_name);
+	const data = await Ticket.updateOne({ 'assigned_employee.user_name': user.user_name, status: CONSTS.TICKET_STATUS_IN_PROGRESS })
+		.where({ _id: ticketid });
+	if (data) {
+		res.status(200).json({ success: "Ticket Assigned Successfully to " + user.user_name });
+	} else {
+		res.json({ error: "Error Happend while processing your request" });
+	}
+});
 router.get('/customer', async function (req, res, next) {
 	const db = req.db;
 	const customerId = req.query.customerid;
-	const data = await Ticket.find({'created_by.role':'customer', 'created_by._id':customerId});
+	const data = await Ticket.find({ 'created_by.role': 'customer', 'created_by._id': customerId });
 	res.json(data);
 });
 

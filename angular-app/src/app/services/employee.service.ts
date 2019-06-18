@@ -30,13 +30,13 @@ export class EmployeeService {
     let url = CONSTS.SERVICE_BASE_URL + '/tickets/opentickets';
     return this.http.get(url);
   }
-  assignTicketToCurrentEmployee(ticketid,empid): Observable<any> {
+  assignTicketToCurrentEmployee(ticketid, empid): Promise<any> {
     console.log('assignTicketToEmployee')
-    
+
     console.log({ ticketid, empid })
     // console.log(user);
 
     let url = CONSTS.SERVICE_BASE_URL + '/tickets/assign';
-    return this.http.patch(url, {  ticketid });
+    return this.http.patch(url, { ticketid, empid }).toPromise();
   }
 }

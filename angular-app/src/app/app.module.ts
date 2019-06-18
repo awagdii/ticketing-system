@@ -14,6 +14,7 @@ import { MaterialModule } from './material-module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 // import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 
 const myRoutes: Routes = [
@@ -43,7 +44,9 @@ const myRoutes: Routes = [
     ReactiveFormsModule,
     MatNativeDateModule,
     MaterialModule,
-    RouterModule.forRoot(myRoutes)
+	RouterModule.forRoot(myRoutes),
+	ToastrModule.forRoot(), // ToastrModule added
+
 	],
 	providers: [
     {

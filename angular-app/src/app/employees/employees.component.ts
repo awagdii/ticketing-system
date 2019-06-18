@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TokenService } from '../users/token.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employees',
@@ -18,7 +19,7 @@ export class EmployeesComponent implements OnInit {
   displayedColumns: string[] = ['title', 'description', 'user_name', 'status', 'createdAt', 'assign'];
   dataSource = new MatTableDataSource<TicketElement>(this.openTickets);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  constructor(private myHttp: EmployeeService, private tokenService: TokenService) {
+  constructor(private myHttp: EmployeeService, private tokenService: TokenService, private toastr: ToastrService) {
     console.log('in constructor');
 
     this.myHttp.getOpenTickets().subscribe(
@@ -43,9 +44,16 @@ export class EmployeesComponent implements OnInit {
 
   }
 
-  assingTicket(ticketid) {
-    let id =this.tokenService.getUserInfo()._id;
-    this.myHttp.assignTicketToCurrentEmployee(ticketid,id);
+  async assingTicket(ticketid) {
+    let curr_employee_id = this.tokenService.getUserInfo()._id;
+    let res = await this.myHttp.assignTicketToCurrentEmployee(ticketid, curr_employee_id);
+    console.log(res)
+    if (res.success) {
+      this.toastr.success(res.success, 'Congratulations  ..!');
+    }else{
+      this.toastr.error(res.error, 'Failed  ..!');
+
+    }
   }
 
 }
