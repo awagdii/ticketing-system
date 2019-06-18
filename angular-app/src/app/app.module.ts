@@ -8,6 +8,7 @@ import { SignupComponent } from './users/signup/signup.component';
 import { LoginComponent } from './users/login/login.component';
 import { ErrorComponent } from './error/error.component';
 import { AuthguardGuard } from './authguard.guard';
+import { TicketComponent } from './ticket/ticket.component';
 
 
 const myRoutes: Routes = [
@@ -25,7 +26,8 @@ const myRoutes: Routes = [
 	declarations: [
 		AppComponent,
     HomeComponent,
-    ErrorComponent
+    ErrorComponent,
+    TicketComponent
 	
 	],
 	imports: [
