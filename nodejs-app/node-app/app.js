@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var jwt = require('jsonwebtoken');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -61,7 +62,7 @@ const authMiddlerWare = (req, res, next) => {
 
   app.use('/users', usersRouter);
 //will add the middle here after creating interceptor [Eman]
-  app.use('/tickets',ticketsRouter);
+  app.use('/tickets',authMiddlerWare,ticketsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

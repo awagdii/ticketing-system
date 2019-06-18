@@ -10,7 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 const myRoutes: Routes = [
 	{ path : '', component: SignupComponent},
-	{ path: 'login', component:LoginComponent},
+  { path: 'login', component:LoginComponent},
+  {path:'**',component:LoginComponent}
 ];
 
 

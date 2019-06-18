@@ -4,35 +4,44 @@ var ObjectId = require('mongodb').ObjectID;
 var User = require('./../model/User');
 var Ticket = require('./../model/Ticket');
 const CONSTS = require('../utils/constants');
+const DB_CONFIG = require('../utils/db-config');
+
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(DB_CONFIG.SendGridKey);
 
 var router = express.Router();
-/* CUSTOMER ROUTES */
+/* Create ticket by customer */
 router.post('/', function (req, res, next) {
-	const db = req.db;
 	const data = req.body;
-	console.log(data);
-	let myData = new Ticket();
-	myData.created_by = {
+	let ticket = new Ticket();
+	ticket.created_by = {
 		user_name: data.user_name,
 		id: data._id
 	};
-	myData.status = 'open';
-	myData.description = data.data.description;
-	myData.title = data.data.title;
+	ticket.status = 'open';
+	ticket.description = data.ticketInfo.description;
+	ticket.title = data.ticketInfo.title;
 
-	myData.save().then(d => {
-		res.json({ success: true });
-	})
+	ticket.save().then(d => {
+		const msg = {
+			to: 'ehassan@mum.edu',
+			from: 'mwa@mum.edu',
+			subject: 'New tickets issued',
+			html: '<strong>You have new open tickets in ticketing system, please resolve them asap!</strong>',
+		  };
+		  sgMail.send(msg);
+		res.json({ data:{success: true}});
+		})
 		.catch(err => {
-			console.log(err);
 			res.status(500);
 		});
 });
 
-router.get('/customer', async function (req, res, next) {
-	const db = req.db;
-	const customerId = req.query.customerid;
-	const data = await Ticket.find({ 'created_by.id': customerId });
+
+/* get tickets per customer */
+router.get('/:customerid', async function (req, res, next) {
+	const customerId = req.params.customerid;
+	const data = await Ticket.find({'created_by.id': customerId });
 	res.json(data);
 });
 

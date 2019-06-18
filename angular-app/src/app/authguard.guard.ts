@@ -12,9 +12,14 @@ export class AuthguardGuard implements CanActivate  {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    console.log('in');
-      if(this.tokenService.getUserInfo() != null)
-      return true; //Eman check if role customer or not
+    let usr=this.tokenService.getUserInfo();  
+    if(usr != null)
+      {
+        if( route.routeConfig.path.toLowerCase().indexOf('employees') != -1 && usr.role=='employee')
+        return true;
+        else if( route.routeConfig.path.toLowerCase().indexOf('customers') != -1 && usr.role=='customer')
+        return true;
+      }
       this.router.navigate(['/error']);
       return false;
   }

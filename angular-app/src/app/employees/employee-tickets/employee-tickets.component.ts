@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TicketElement } from '../employees.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { EmployeeService } from 'src/app/services/employee.service';
+import { EmployeeService } from 'src/app/employees/employee.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { TokenService } from 'src/app/users/token.service';
 import { ToastrService } from 'ngx-toastr';

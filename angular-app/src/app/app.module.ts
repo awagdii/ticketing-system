@@ -15,15 +15,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 // import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { EmployeeService } from './employees/employee.service';
+import { CustomerService } from './customers/customer.service';
 
 
 const myRoutes: Routes = [
 	{ path: '', component: HomeComponent },
 	{
 		path: 'customers', loadChildren: () => import('./customers/customers.module')
-			.then(m => m.CustomersModule)
-	}, //toapply guar add: ,canActivate: [AuthguardGuard]
-	{ path: 'employees', loadChildren: () => import('./employees/employees.module').then(e => e.EmployeesModule) },
+			.then(m => m.CustomersModule),canActivate: [AuthguardGuard]
+	}, //toapply guar add: 
+  { path: 'employees', loadChildren: () => import('./employees/employees.module')
+  .then(e => e.EmployeesModule) ,canActivate: [AuthguardGuard]},
 	{ path: 'users', loadChildren: () => import('./users/users.module').then(e => e.UsersModule) },
 	{ path: 'error', component: ErrorComponent }
 
@@ -53,7 +56,9 @@ const myRoutes: Routes = [
 			provide: HTTP_INTERCEPTORS,
 			useClass: TokenInterceptor,
 			multi: true
-		}
+    },
+    EmployeeService,
+    CustomerService
 	],
 	bootstrap: [AppComponent]
 })

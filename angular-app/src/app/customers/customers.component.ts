@@ -1,10 +1,10 @@
 import { Component, ɵConsole, OnInit } from '@angular/core';
-import { CustomerService } from '../services/customer.service';
 import { TokenService } from '../users/token.service';
 import { log } from 'util';
 import { async } from 'q';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MaterialModule } from '../material-module';
+import { CustomerService } from './customer.service';
 
 @Component({
 	selector: 'app-customer',
@@ -102,6 +102,7 @@ export class CustomersComponent implements OnInit {
 		this.service.createTicket(this.customerCreateTicket.value).subscribe(
 			result => {
 				this.customerCreateTicket.reset();
+				this.history$ = this.service.getHistory();
 			},
 			error => {
 				console.log("error")
