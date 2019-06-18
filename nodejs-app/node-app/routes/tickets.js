@@ -22,7 +22,7 @@ router.post('/', function (req, res, next) {
 
 	myData.save().then(d => {
 		res.json({ success: true });
-		})
+	})
 		.catch(err => {
 			console.log(err);
 			res.status(500);
@@ -32,7 +32,7 @@ router.post('/', function (req, res, next) {
 router.get('/customer', async function (req, res, next) {
 	const db = req.db;
 	const customerId = req.query.customerid;
-	const data = await Ticket.find({'created_by.id': customerId });
+	const data = await Ticket.find({ 'created_by.id': customerId });
 	res.json(data);
 });
 
@@ -50,14 +50,24 @@ router.get('/inprogress', async function (req, res, next) {
 router.patch('/assign', async function (req, res, next) {
 	// console.log(req.body)
 	let ticketid = req.body.ticketid;
+	let ticketInTheDB = await Ticket.findOne().where({ _id: ticketid })
+	console.log(ticketInTheDB);
+	console.log(ticketInTheDB.status);
+	if (ticketInTheDB.status != CONSTS.TICKET_STATUS_OPEN) {
+		return res.json({ error: "ticket already taken" });
+
+	}
 	let empid = req.body.empid;
 	const user = await User.findOne({ _id: empid }).select({ user_name: 1, _id: 0 });
+	console.log(user);
 	console.log(user.user_name);
 	const data = await Ticket.updateOne({ 'assigned_employee.user_name': user.user_name, status: CONSTS.TICKET_STATUS_IN_PROGRESS })
 		.where({ _id: ticketid });
+	// console.log(ticket);
 	if (data) {
 		res.status(200).json({ success: "Ticket Assigned Successfully to " + user.user_name });
-	} else {
+	}
+	else {
 		res.json({ error: "Error Happend while processing your request" });
 	}
 });

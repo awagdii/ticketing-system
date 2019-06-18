@@ -14,14 +14,23 @@ import { ToastrService } from 'ngx-toastr';
 
 export class EmployeesComponent implements OnInit {
 
-  public openTickets = new Array();
+  public openTickets;
 
   displayedColumns: string[] = ['title', 'description', 'user_name', 'status', 'createdAt', 'assign'];
   dataSource = new MatTableDataSource<TicketElement>(this.openTickets);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   constructor(private myHttp: EmployeeService, private tokenService: TokenService, private toastr: ToastrService) {
     console.log('in constructor');
+   this. getOpenTickets();
+  }
 
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+
+  }
+
+  getOpenTickets() {
+    this.openTickets = new Array();
     this.myHttp.getOpenTickets().subscribe(
       res => {
         // this.openTickets.push(res);
@@ -36,32 +45,16 @@ export class EmployeesComponent implements OnInit {
         console.log(err);
       }
     );
-
-
-  }
-
-  ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-
   }
 
   async assingTicket(ticketid) {
     let curr_employee_id = this.tokenService.getUserInfo()._id;
     let res = await this.myHttp.assignTicketToCurrentEmployee(ticketid, curr_employee_id);
-    console.log(res)
+    // console.log(res)
+    this.getOpenTickets();
     if (res.success) {
       this.toastr.success(res.success, 'Congratulations  ..!');
-      let selectedTicketElement = this.openTickets.filter(obj => {
 
-        if (obj._id === ticketid)
-          return obj;
-
-      })
-      this.openTickets = this.openTickets.filter(obj => {
-        return obj._id !== ticketid;
-      })
-      this.dataSource = new MatTableDataSource<TicketElement>(this.openTickets);
-      this.dataSource.paginator = this.paginator;
     } else {
       this.toastr.error(res.error, 'Failed  ..!');
 
