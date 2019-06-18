@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
     this.userservice.saveUser(this.myForm.get('userData')).subscribe(data=>
       {
         console.log(data);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/users/login']);
       }
       );;
   }

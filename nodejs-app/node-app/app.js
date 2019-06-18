@@ -51,10 +51,10 @@ const authMiddlerWare = (req, res, next) => {
         res.status(401).send();
     }
     const token = req.headers['authorization'].split(" ")[1];
-    console.log(token);
+    //console.log(token);
     jwt.verify(token, publicKey, function (err, decoded) {
         if (err) res.status(401).send();
-        console.log(decoded)
+      //  console.log(decoded)
         req.userEmail = decoded.email;
         next();
     });

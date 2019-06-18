@@ -11,9 +11,7 @@ sgMail.setApiKey(DB_CONFIG.SendGridKey);
 
 var router = express.Router();
 /* Create ticket by customer */
-router.post('/', function (req, res, next) {
-	console.log('hi8');
-	
+router.post('/',async  function (req, res, next) {
 	const data = req.body;
 	let ticket = new Ticket();
 	ticket.created_by = {
@@ -23,11 +21,13 @@ router.post('/', function (req, res, next) {
 	ticket.status = 'open';
 	ticket.description = data.ticketInfo.description;
 	ticket.title = data.ticketInfo.title;
-
-	ticket.save().then(d => {
-
+	const empdata =await   User.find({ role:'employee'}).select({'email':1,'_id':0});
+	empdata.map(e=>e.email);
+	ticket.save().then(async (d) => {
+		
+		console.log(empdata.map(e=>e.email));
 		const msg = {
-			to: 'ehassan@mum.edu',
+			to: empdata.map(e=>e.email),
 			from: 'mwa@mum.edu',
 			subject: 'New tickets issued',
 			html: '<strong>You have new open tickets in ticketing system, please resolve them asap!</strong>',
@@ -44,8 +44,6 @@ router.post('/', function (req, res, next) {
 
 /* get tickets per customer */
 router.get('/customer/:customerid', async function (req, res, next) {
-	console.log('hi6');
-
 	const customerId = req.params.customerid;
 	const data = await Ticket.find({'created_by.id': customerId });
 	res.json(data);
@@ -85,7 +83,6 @@ router.patch('/:empid/:ticketid', async function (req, res, next) {
 });
 
 router.patch('/:ticketid', async function (req, res, next) {
-	 console.log("hi3");
 	let ticketid = req.params.ticketid;
 	let comment = req.body.comment;
 	const data = await Ticket.updateOne({ resolve_comment: comment, status: CONSTS.TICKET_STATUS_RESOLVED })

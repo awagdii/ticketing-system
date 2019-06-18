@@ -6,18 +6,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from './users.service';
 import { HttpClientModule } from '@angular/common/http';
+import { LogoffComponent } from './logoff/logoff.component';
 
 
 const myRoutes: Routes = [
-	{ path : '', component: SignupComponent},
+	{ path : '', component: LoginComponent},
   { path: 'login', component:LoginComponent},
+  { path: 'signup', component:SignupComponent},
+  { path: 'logoff', component:LogoffComponent},
   {path:'**',component:LoginComponent}
 ];
 
 
 @NgModule({
   declarations: [	SignupComponent,
-		LoginComponent],
+		LoginComponent,
+		LogoffComponent],
   imports: [
     CommonModule,HttpClientModule,RouterModule.forChild(myRoutes),ReactiveFormsModule
   ],
