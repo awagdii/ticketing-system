@@ -17,6 +17,7 @@ var router = express.Router();
 // });
 router.post('/:customerid', function (req, res, next) {
 	const db = req.db;
+	console.log('cust '+req.params.customerid);
 	const userId = req.params.customerid;
 	const data = req.body;
 	// const ticketValue = [{
@@ -27,15 +28,19 @@ router.post('/:customerid', function (req, res, next) {
 	// 	},
 	// 	description : data.description
 	// }];
+	data.created_by = {'_id':new ObjectId(userId._id),'user_name':userId.user_name,'email':userId.email};
+	console.log(data);
 	let ticket = new Ticket(data);
-	ticket.created_by = new ObjectId(userId);
+	console.log('ticket:' +ticket);
+	//ticket.created_by = new ObjectId(userId);
 	ticket.save().then(d => {
 		res.json({success:true});
 	})
 	.catch(err => {
+		console.log(err);
 		res.status(500);
 	});
-	res.send('respond with a resource4');
+//	res.send('respond with a resource4');
 });
 router.get('/opentickets', async function (req, res, next) {
 	const data = await Ticket.find({ status: CONSTS.TICKET_STATUS_OPEN });

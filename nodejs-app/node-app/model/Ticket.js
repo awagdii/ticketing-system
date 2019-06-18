@@ -24,7 +24,7 @@ ticket.pre('save', function (next) {
 
     console.log('isNew  ' + this.isNew)
     if (this.isNew) {
-        this.createdAt ( Date.now() );
+        this.createdAt =Date.now() ;
     }
     next();
 });

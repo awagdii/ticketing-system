@@ -13,12 +13,32 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 				<p> {{ticket.status}} </p>
 				<p> {{ticket.created_by.role}} </p>
 			</div>
-			<button (click) = "createTicket()">Create new Ticket</button>
+			<h3>Create new ticker</h3>
 			<form [formGroup] = "customerCreateTicket" (ngSubmit) = "onSubmit()"> 
 				Description : <textarea name="description" formControlName="description"> </textarea>
 				<button type="submit">Create</button>
 			</form>
 		</div>
+		<br/>
+		<h3>My Tickets</h3>
+		<div>
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+	  <th>Created At</th>
+	  <th>Comments</th>
+    </tr>
+    <tr *ngFor="let ticket of history$ | async">
+      <td>{{ticket.title}}</td>
+      <td>{{ticket.description}}</td>
+      <td>{{ticket.status}}</td>
+	  <td>{{ticket.createdAt|date : "MM/dd/yyyy"}}</td>
+      <td>{{ticket.resolve_comments}}</td>
+    </tr>
+  </table>
+</div>
 	`,
 	styles: [`
 		.createTicket {
@@ -47,7 +67,7 @@ export class CustomersComponent implements OnInit {
 
 	ngOnInit() {
 		this.customerCreateTicket = this.fBuilder.group({
-			description : [{value : ''}]
+			description : ''
 		});
 	}
 
