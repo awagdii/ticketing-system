@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class EmployeeService {
   private openTickets: string[] = [];
+   url = CONSTS.SERVICE_BASE_URL + '/tickets/';
 
   constructor(public http: HttpClient) { }
 
@@ -27,28 +28,20 @@ export class EmployeeService {
 
   getOpenTickets(): Observable<any> {
     console.log('in getOpenTickets')
-    let url = CONSTS.SERVICE_BASE_URL + '/tickets/opentickets';
-    return this.http.get(url);
+    return this.http.get(this.url);
   }
 
   getInProgressTickets(empid): Observable<any> {
     console.log('assignTicketToEmployee')
-    console.log({ empid })
-    let url = CONSTS.SERVICE_BASE_URL + '/tickets/inprogress';
-    return this.http.get(url, empid);
+    console.log(this.url+`${empid}`)
+    return this.http.get(this.url+`${empid}`);
   }
+
   assignTicketToCurrentEmployee(ticketid, empid): Promise<any> {
-    console.log('assignTicketToEmployee')
-
-    console.log({ ticketid, empid })
-    // console.log(user);
-
-    let url = CONSTS.SERVICE_BASE_URL + '/tickets/assign';
-    return this.http.patch(url, { ticketid, empid }).toPromise();
+    return this.http.patch(this.url+ `${empid}/${ticketid}`,{status:'in progress'}).toPromise();
   }
+
   resolveCurrentEmployeeTicket(ticketid, comment): Promise<any> {
-    console.log('resolveCurrentEmployeeTicket');
-    let url = CONSTS.SERVICE_BASE_URL + '/tickets/resolve';
-    return this.http.patch(url, { ticketid, comment }).toPromise();
+    return this.http.patch(this.url+ `${ticketid}`, { comment }).toPromise();
   }
 }

@@ -47,8 +47,8 @@ export class EmployeeTicketsComponent implements OnInit {
   async resolveTicket(ticketid, comment) {
     let res = await this.myHttp.resolveCurrentEmployeeTicket(ticketid, comment);
     this.getInProgressTickets();
-    if (res.success) {
-      this.toastr.success(res.success, 'Congratulations  ..!');
+    if (res.data.success) {
+      this.toastr.success(res.data.success, 'Congratulations  ..!');
     } else {
       this.toastr.error(res.error, 'Failed  ..!');
 

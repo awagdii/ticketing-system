@@ -52,8 +52,10 @@ export class EmployeesComponent implements OnInit {
     let res = await this.myHttp.assignTicketToCurrentEmployee(ticketid, curr_employee_id);
     // console.log(res)
     this.getOpenTickets();
-    if (res.success) {
-      this.toastr.success(res.success, 'Congratulations  ..!');
+    if (res.data.success) {
+    console.log(res.data.success);
+
+      this.toastr.success(res.data.success, 'Congratulations  ..!');
 
     } else {
       this.toastr.error(res.error, 'Failed  ..!');

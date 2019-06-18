@@ -13,7 +13,7 @@ export class CustomerService {
 
 	getHistory(): Observable<any> {
 		let userId = this.tokenService.getUserInfo()._id;
-		return this.http.get(CONSTS.SERVICE_BASE_URL + `/tickets/${userId}`);
+		return this.http.get(CONSTS.SERVICE_BASE_URL + `/tickets/customer/${userId}`);
 	}
 
 	createTicket(data) {

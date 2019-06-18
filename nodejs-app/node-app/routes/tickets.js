@@ -12,6 +12,8 @@ sgMail.setApiKey(DB_CONFIG.SendGridKey);
 var router = express.Router();
 /* Create ticket by customer */
 router.post('/', function (req, res, next) {
+	console.log('hi8');
+	
 	const data = req.body;
 	let ticket = new Ticket();
 	ticket.created_by = {
@@ -23,6 +25,7 @@ router.post('/', function (req, res, next) {
 	ticket.title = data.ticketInfo.title;
 
 	ticket.save().then(d => {
+
 		const msg = {
 			to: 'ehassan@mum.edu',
 			from: 'mwa@mum.edu',
@@ -30,7 +33,8 @@ router.post('/', function (req, res, next) {
 			html: '<strong>You have new open tickets in ticketing system, please resolve them asap!</strong>',
 		  };
 		  sgMail.send(msg);
-		res.json({ data:{success: true}});
+
+		res.status(201).json({ data:{success: true}});
 		})
 		.catch(err => {
 			res.status(500);
@@ -39,73 +43,59 @@ router.post('/', function (req, res, next) {
 
 
 /* get tickets per customer */
-router.get('/:customerid', async function (req, res, next) {
+router.get('/customer/:customerid', async function (req, res, next) {
+	console.log('hi6');
+
 	const customerId = req.params.customerid;
 	const data = await Ticket.find({'created_by.id': customerId });
 	res.json(data);
 });
 
 /* EMPLOYEE ROUTES */
-router.get('/opentickets', async function (req, res, next) {
+/*get open tickets for employees */
+router.get('/', async function (req, res, next) {
 	const data = await Ticket.find({ status: CONSTS.TICKET_STATUS_OPEN });
 	res.json(data);
 });
-router.get('/inprogress', async function (req, res, next) {
-	empid = req.body.empid;
-	console.log(empid)
+
+/*get in progress tickets for employee id */
+router.get('/:empid', async function (req, res, next) {
+	empid = req.params.empid;
 	const data = await Ticket.find().where({ status: CONSTS.TICKET_STATUS_IN_PROGRESS, 'assigned_employee.id': empid });
 	res.json(data);
 });
-router.patch('/assign', async function (req, res, next) {
-	// console.log(req.body)
-	let ticketid = req.body.ticketid;
+
+/*set a ticket as in progress tickets for employee id */
+router.patch('/:empid/:ticketid', async function (req, res, next) {
+	let ticketid = req.params.ticketid;
 	let ticketInTheDB = await Ticket.findOne().where({ _id: ticketid })
-	console.log(ticketInTheDB);
-	console.log(ticketInTheDB.status);
 	if (ticketInTheDB.status != CONSTS.TICKET_STATUS_OPEN) {
 		return res.json({ error: "ticket already taken" });
-
 	}
-	let empid = req.body.empid;
+	let empid = req.params.empid;
 	const user = await User.findOne({ _id: empid }).select({ user_name: 1, _id: 0 });
-	console.log(user);
-	console.log(user.user_name);
-	const data = await Ticket.updateOne({ 'assigned_employee.user_name': user.user_name, status: CONSTS.TICKET_STATUS_IN_PROGRESS })
+	const data = await Ticket.updateOne({ 'assigned_employee.user_name': user.user_name,'assigned_employee.id':empid, status: CONSTS.TICKET_STATUS_IN_PROGRESS })
 		.where({ _id: ticketid });
-	// console.log(ticket);
 	if (data) {
-		res.status(200).json({ success: "Ticket Assigned Successfully to " + user.user_name });
+		res.status(200).json({data:{ success: "Ticket Assigned Successfully to " + user.user_name }});
 	}
 	else {
-		res.json({ error: "Error Happend while processing your request" });
+		res.json({data: { error: "Error Happend while processing your request" }});
 	}
 });
-router.patch('/resolve', async function (req, res, next) {
-	// console.log(req.body)
-	let ticketid = req.body.ticketid;
+
+router.patch('/:ticketid', async function (req, res, next) {
+	 console.log("hi3");
+	let ticketid = req.params.ticketid;
 	let comment = req.body.comment;
 	const data = await Ticket.updateOne({ resolve_comment: comment, status: CONSTS.TICKET_STATUS_RESOLVED })
 		.where({ _id: ticketid });
 	if (data) {
-		res.status(200).json({ success: "Ticket Was Resolved Successfully With comment\n " + comment });
+		res.status(200).json({data:{ success: "Ticket Was Resolved Successfully With comment\n " + comment }});
 	} else {
-		res.json({ error: "Error Happend while processing your request" });
+		res.json({data:{ error: "Error Happend while processing your request" }});
 	}
 });
 
-/* GET employees started tickets listing for employee. */
-router.get('/:empid', function (req, res, next) {
-	res.send('respond with a resource1');
-});
-
-/* GET employee takes ticket and flag it as started for employee. */
-router.patch('/:id/employee/:empid', function (req, res, next) {
-	res.send('respond with a resource2');
-});
-
-
-router.get('/customer', function (req, res, next) {
-	res.send('respond with a resource');
-});
 
 module.exports = router;
