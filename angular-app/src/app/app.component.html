@@ -1,12 +1,19 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div>
-    <h1>App Component</h1>
-    <div class="container">
-        <!-- <a [routerLink]="['/']">Home</a> |  -->
-        <a [routerLink]="['customers']">Customer</a> |
-        <a [routerLink]="['employees']">Empolyee</a> |
-        <a [routerLink]="['users']">Customer Signup</a> |
-        <a [routerLink]="['users/login']">Login</a>
-    </div>
-    <router-outlet></router-outlet>
-</div>
+
+
+<mat-toolbar color="primary" class="fixed-header">
+  <mat-toolbar-row>
+    <h1>Tickting System</h1>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <span><img src="../assets/ticket.png" style="width:50px;"></span>
+    <!-- <span style="color: bisque">Tickering System</span> -->
+    <a mat-button [routerLink]="['customers']">Customer</a> |
+    <a mat-button [routerLink]="['employees']">Empolyee</a> |
+    <a mat-button [routerLink]="['users']">Customer Signup</a> |
+    <a mat-button [routerLink]="['users/login']">Login</a>
+  </mat-toolbar-row>
+</mat-toolbar>
+<main>
+  <router-outlet style="margin-top: 80px;"></router-outlet>
+</main>

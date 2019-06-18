@@ -9,6 +9,10 @@ import { LoginComponent } from './users/login/login.component';
 import { ErrorComponent } from './error/error.component';
 import { AuthguardGuard } from './authguard.guard';
 import { TokenInterceptor } from './users/auth.interceptor';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MaterialModule } from './material-module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatNativeDateModule} from '@angular/material/core';
 // import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
@@ -32,10 +36,17 @@ const myRoutes: Routes = [
 
 	],
 	imports: [
-		BrowserModule, HttpClientModule, RouterModule.forRoot(myRoutes)
+    BrowserModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MaterialModule,
+    RouterModule.forRoot(myRoutes)
 	],
 	providers: [
-		{
+    {
 			provide: HTTP_INTERCEPTORS,
 			useClass: TokenInterceptor,
 			multi: true
