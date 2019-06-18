@@ -1,5 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
 var User = require('./../model/User');
 var Ticket = require('./../model/Ticket');
 const CONSTS = require('../utils/constants');
@@ -14,6 +15,28 @@ var router = express.Router();
 // 	});
 // 	// res.send('respond with a resource');
 // });
+router.post('/:customerid', function (req, res, next) {
+	const db = req.db;
+	const userId = req.params.customerid;
+	const data = req.body;
+	// const ticketValue = [{
+	// 	status : 'open',
+	// 	resolveComments: {
+	// 		0 : '',
+	// 		1: ''
+	// 	},
+	// 	description : data.description
+	// }];
+	let ticket = new Ticket(data);
+	ticket.created_by = new ObjectId(userId);
+	ticket.save().then(d => {
+		res.json({success:true});
+	})
+	.catch(err => {
+		res.status(500);
+	});
+	res.send('respond with a resource4');
+});
 router.get('/opentickets', async function (req, res, next) {
 	const data = await Ticket.find({ status: CONSTS.TICKET_STATUS_OPEN });
 	res.json(data);
@@ -22,7 +45,6 @@ router.get('/customer', async function (req, res, next) {
 	const db = req.db;
 	const customerId = req.query.customerid;
 	const data = await Ticket.find({'created_by.role':'customer', 'created_by._id':customerId});
-	console.log(data);
 	res.json(data);
 });
 
@@ -38,9 +60,10 @@ router.patch('/:id/employee/:empid', function (req, res, next) {
 
 /* GET employee resolves ticket and flag it as resolved and add comment
 // for employee. */
-router.post('/:id', function (req, res, next) {
-	res.send('respond with a resource3');
-});
+// router.post('/:id', function (req, res, next) {
+// 	console.log("PSDA SWE");
+// 	res.send('respond with a resource3');
+// });
 
 //customer stuff
 /* GET customers tickets */
@@ -49,9 +72,7 @@ router.get('/customer', function (req, res, next) {
 });
 
 //create new ticket for the customer
-router.post('/:customerid', function (req, res, next) {
-	res.send('respond with a resource4');
-});
+
 
 
 module.exports = router;

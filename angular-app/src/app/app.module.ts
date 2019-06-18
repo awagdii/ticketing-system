@@ -9,36 +9,38 @@ import { LoginComponent } from './users/login/login.component';
 import { ErrorComponent } from './error/error.component';
 import { AuthguardGuard } from './authguard.guard';
 import { TokenInterceptor } from './users/auth.interceptor';
+// import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 const myRoutes: Routes = [
-	{ path : '', component: HomeComponent},
-  { path: 'customers', loadChildren: () => import('./customers/customers.module')
-  .then(m => m.CustomersModule)}, //toapply guar add: ,canActivate: [AuthguardGuard]
-  { path: 'employees', loadChildren: () => import('./employees/employees.module').then(e => e.EmployeesModule)},
-  { path: 'users', loadChildren: () => import('./users/users.module').then(e => e.UsersModule)},
-	{ path: 'error', component:ErrorComponent}
-  
-  
+	{ path: '', component: HomeComponent },
+	{
+		path: 'customers', loadChildren: () => import('./customers/customers.module')
+			.then(m => m.CustomersModule)
+	}, //toapply guar add: ,canActivate: [AuthguardGuard]
+	{ path: 'employees', loadChildren: () => import('./employees/employees.module').then(e => e.EmployeesModule) },
+	{ path: 'users', loadChildren: () => import('./users/users.module').then(e => e.UsersModule) },
+	{ path: 'error', component: ErrorComponent }
+
 ];
 
 @NgModule({
 	declarations: [
 		AppComponent,
-    HomeComponent,
-    ErrorComponent
-	
+		HomeComponent,
+		ErrorComponent
+
 	],
 	imports: [
-		BrowserModule,HttpClientModule,RouterModule.forRoot(myRoutes)
+		BrowserModule, HttpClientModule, RouterModule.forRoot(myRoutes)
 	],
 	providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
-  ],
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TokenInterceptor,
+			multi: true
+		}
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

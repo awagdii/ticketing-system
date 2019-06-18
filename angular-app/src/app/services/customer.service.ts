@@ -17,9 +17,9 @@ export class CustomerService {
 		return this.http.get(CONSTS.SERVICE_BASE_URL + '/tickets/customer/',{params:{'customerid':userId}});
 	}
 
-	createTicket(datas) : Observable<any> {
+	createTicket(datas) {
+		console.log("INSIDE CREATE TICKET");
 		let userId = this.tokenService.getUserInfo()._id;
-		let url = CONSTS.SERVICE_BASE_URL + '/tickets/' + userId;
-		return this.http.post(CONSTS.SERVICE_BASE_URL + '/tickets/customer/',{params:{'customerid':userId}})
+		return this.http.post(`${CONSTS.SERVICE_BASE_URL}/tickets/`+userId,datas);
 	}
 }
