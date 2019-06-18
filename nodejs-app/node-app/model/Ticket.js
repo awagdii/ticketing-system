@@ -12,8 +12,8 @@ const ticket = new mongoose.Schema({
         default: CONSTS.TICKET_STATUS_OPEN
     },
     createdAt: {
-        value : Date,
-        defualt: Date.now()
+        type : Date,
+        default: Date.now()
     },
     created_by: { user_name: String, email: String },
     assigned_employee: { user_name: String, email: String },
@@ -24,7 +24,7 @@ ticket.pre('save', function (next) {
 
     console.log('isNew  ' + this.isNew)
     if (this.isNew) {
-        this.createdAt = Date.now() ;
+        this.createdAt ( Date.now() );
     }
     next();
 });
