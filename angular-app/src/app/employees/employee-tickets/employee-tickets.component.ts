@@ -13,13 +13,20 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EmployeeTicketsComponent implements OnInit {
 
-  public openTickets = new Array();
+  public openTickets;
 
   displayedColumns: string[] = ['title', 'description', 'status', 'createdAt', 'resolve_comment'];
   dataSource = new MatTableDataSource<TicketElement>(this.openTickets);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   constructor(private myHttp: EmployeeService, private tokenService: TokenService, private toastr: ToastrService) {
+    this.getInProgressTickets();
 
+
+
+  }
+
+  getInProgressTickets() {
+    this.openTickets = new Array();
     this.myHttp.getInProgressTickets(this.tokenService.getUserInfo()._id).subscribe(
       res => {
         this.openTickets = this.openTickets.concat(res);
@@ -30,8 +37,6 @@ export class EmployeeTicketsComponent implements OnInit {
         console.log(err);
       }
     );
-
-
   }
 
   ngOnInit() {
@@ -41,13 +46,9 @@ export class EmployeeTicketsComponent implements OnInit {
 
   async resolveTicket(ticketid, comment) {
     let res = await this.myHttp.resolveCurrentEmployeeTicket(ticketid, comment);
+    this.getInProgressTickets();
     if (res.success) {
       this.toastr.success(res.success, 'Congratulations  ..!');
-      this.openTickets = this.openTickets.filter(obj => {
-        return obj._id !== ticketid;
-      })
-      this.dataSource = new MatTableDataSource<TicketElement>(this.openTickets);
-      this.dataSource.paginator = this.paginator;
     } else {
       this.toastr.error(res.error, 'Failed  ..!');
 
