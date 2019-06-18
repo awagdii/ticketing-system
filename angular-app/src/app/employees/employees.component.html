@@ -1,16 +1,18 @@
 <div>
   <table>
     <tr>
-      <th>description</th>
-      <th>created_by</th>
-      <th>status</th>
-      <th>createdAt</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Created by</th>
+      <th>Status</th>
+      <th>Created At</th>
     </tr>
     <tr *ngFor="let ticket of openTickets">
+      <td>{{ticket.title}}</td>
       <td>{{ticket.description}}</td>
       <td>{{ticket.created_by.user_name}}</td>
       <td>{{ticket.status}}</td>
-      <td>{{ticket.createdAt}}</td>
+      <td>{{ticket.createdAt|date : "MM/dd/yyyy"}}</td>
       <td><button>Assign</button></td>
     </tr>
   </table>
