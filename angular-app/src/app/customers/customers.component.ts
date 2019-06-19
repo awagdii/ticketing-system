@@ -30,37 +30,8 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/form
 			</div>
 			<br/>
 		</div>
-		<mat-toolbar>
-		<span>Ticket History</span>
-	  </mat-toolbar>
+
 		<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
-
-        <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef> Title </th>
-            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> Description </th>
-            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> Status </th>
-            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="createdAt">
-            <th mat-header-cell *matHeaderCellDef> Created At </th>
-            <td mat-cell *matCellDef="let element"> {{element.createdAt|date:"MM /dd/yyyy"}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-		</table>
-		<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 	</div>
 	`,
 	styles: [`

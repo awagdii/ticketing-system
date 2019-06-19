@@ -1,0 +1,14 @@
+#container {
+    margin-top: 10px;
+}
+table {
+    width: 100%;
+}
+.createTicketForm {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+.formFields {
+    width: 100%;
+}

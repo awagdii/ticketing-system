@@ -6,15 +6,18 @@ import { AuthguardGuard } from '../authguard.guard';
 import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CustomerService } from './customer.service';
 import { MaterialModule } from '../material-module';
+import { CustomerTicketsComponent } from './customer-tickets/customer-tickets.component';
 
 const myRoutes: Routes = [{ path: '', component: CustomersComponent },
 	{ path: 'customers', component: CustomersComponent},
+	{ path: 'history', component: CustomerTicketsComponent},
 	{path:'**',redirectTo:''}
 ]
 
 @NgModule({
 	declarations: [
-		CustomersComponent
+		CustomersComponent,
+		CustomerTicketsComponent
 	],
 	imports: [
 		CommonModule, RouterModule.forChild(myRoutes), FormsModule, ReactiveFormsModule,
