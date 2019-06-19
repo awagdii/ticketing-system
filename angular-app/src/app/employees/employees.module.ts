@@ -5,15 +5,17 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material-module';
 import { EmployeeTicketsComponent } from './employee-tickets/employee-tickets.component';
 import { EmployeeService } from './employee.service';
+import { ResolvedTicketsComponent } from './resolved-tickets/resolved-tickets.component';
 
 @NgModule({
-  declarations: [EmployeesComponent, EmployeeTicketsComponent],
+  declarations: [EmployeesComponent, EmployeeTicketsComponent, ResolvedTicketsComponent],
   imports: [
     MaterialModule,
 
     CommonModule,
     RouterModule.forChild([
       { path: '', component: EmployeesComponent },
+      { path: 'resolved', component: ResolvedTicketsComponent },
       { path: 'tickets', component: EmployeeTicketsComponent }]),
   ],
   providers:[EmployeeService]

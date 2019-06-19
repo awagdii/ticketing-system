@@ -34,11 +34,8 @@
         <td mat-cell *matCellDef="let element"><input  mat-input  color="primary" (click)="resolveTicket(element._id)"> </td>
       </ng-container> -->
     <ng-container matColumnDef="resolve_comment">
-      <th mat-header-cell *matHeaderCellDef> Assign </th>
-      <td mat-cell *matCellDef="let element">
-        <input mat-input color="primary" #myinput>
-        <button mat-button color="green" (click)="resolveTicket(element._id,myinput.value)">Resolve ticket</button>
-      </td>
+      <th mat-header-cell *matHeaderCellDef> Resolve comment </th>
+      <td mat-cell *matCellDef="let element"> {{element.resolve_comment}} </td>
     </ng-container>
 
 

@@ -72,6 +72,7 @@ export interface TicketElement {
   description: string;
   user_name: string;
   status: string;
+  comment:string;
   createdAt: string;
   created_by: Object;
 }
