@@ -1,4 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
+
+
 <mat-toolbar color="primary" class="fixed-header">
   <mat-toolbar-row>
     <h1>Tickting System</h1>
@@ -6,14 +8,21 @@
   <mat-toolbar-row>
     <span><img src="../assets/ticket.png" style="width:50px;"></span>
     <!-- <span style="color: bisque">Tickering System</span> -->
-    <a mat-button [routerLink]="['customers']">Customer</a> |
-    <a mat-button [routerLink]="['customers/history']">Customer History</a> |
+    <div *ngIf="isCustomer">
+      <a  mat-button [routerLink]="['customers']">Customer</a> |
+      <a  mat-button [routerLink]="['customers/history']">Customer History</a> |
+    </div>
+   <div  *ngIf="isEmployee">
     <a mat-button [routerLink]="['employees']">Empolyee</a> |
-    <a mat-button [routerLink]="['employees/tickets']">My Tickets</a> |
-    <a mat-button [routerLink]="['employees/resolved']">Resolved Tickets</a> |
+    <a  mat-button [routerLink]="['employees/tickets']">My Tickets</a> |
+    <a  mat-button [routerLink]="['employees/resolved']">Resolved Tickets</a> |
+   </div>
     <a mat-button [routerLink]="['users/signup']">Customer Signup</a> |
-    <a mat-button [routerLink]="['users']">Login</a> |
-    <a mat-button [routerLink]="['users/logoff']">Log off</a>
+    <div *ngIf="!isLoggedIn"> <a  mat-button [routerLink]="['users']">Login</a>  </div>
+    <a *ngIf="isLoggedIn" mat-button [routerLink]="['users/logoff']">Log off</a>
+
+  </mat-toolbar-row>
+</mat-toolbar>
 <main>
   <router-outlet style="margin-top: 80px;"></router-outlet>
 </main>

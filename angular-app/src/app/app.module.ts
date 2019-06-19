@@ -17,7 +17,6 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { ToastrModule } from 'ngx-toastr';
 import { EmployeeService } from './employees/employee.service';
 import { CustomerService } from './customers/customer.service';
-import { HeaderComponent } from './header/header.component';
 
 
 const myRoutes: Routes = [
@@ -37,9 +36,7 @@ const myRoutes: Routes = [
 	declarations: [
 		AppComponent,
 		HomeComponent,
-		ErrorComponent,
-		HeaderComponent
-
+		ErrorComponent
 	],
 	imports: [
     BrowserModule,

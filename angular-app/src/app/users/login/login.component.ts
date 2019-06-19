@@ -50,7 +50,10 @@ export class LoginComponent implements OnInit {
           console.log(data)
           if(data.success){
             this.tokenService.persist(data.token);
-            this.router.navigate(['/customers'])
+            if(this.tokenService.getUserInfo().role=='customer')
+            this.router.navigate(['/customers']);
+            else
+            this.router.navigate(['/employees'])
           }else{
             this.errorMessge = "Invalid credentials";
           }

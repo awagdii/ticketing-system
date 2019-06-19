@@ -1,9 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
+
+  @Output() refreshTopHeaderMenuEventEmitter: EventEmitter<any> = new EventEmitter();
+
+  public emitTopHeaderMenuUpdatedEvent(parameters) {
+    this.refreshTopHeaderMenuEventEmitter.emit(parameters);
+  }
+
+  public getRefreshTopHeaderMenuEventEmitter() {
+     return this.refreshTopHeaderMenuEventEmitter;
+  }
 
   fetch(){
     return localStorage.getItem("token");
@@ -11,11 +21,14 @@ export class TokenService {
 
   persist(data: any) {
     localStorage.setItem("token", data);
+    this.emitTopHeaderMenuUpdatedEvent(data);
   }
 
   delete()
   {
     localStorage.removeItem("token");
+    this.emitTopHeaderMenuUpdatedEvent("token");
+
   }
 
 
