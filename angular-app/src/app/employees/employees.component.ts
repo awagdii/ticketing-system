@@ -52,7 +52,14 @@ export class EmployeesComponent implements OnInit {
     let res = await this.myHttp.assignTicketToCurrentEmployee(ticketid, curr_employee_id);
     // console.log(res)
     this.getOpenTickets();
+<<<<<<< Updated upstream
     if (res.data) {
+=======
+    
+    if (res.data) {
+    console.log(res.data.success);
+
+>>>>>>> Stashed changes
       this.toastr.success(res.data.success, 'Congratulations  ..!');
 
     } else {
