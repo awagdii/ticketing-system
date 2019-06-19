@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from './users.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LogoffComponent } from './logoff/logoff.component';
+import { MaterialModule } from '../material-module';
 
 
 const myRoutes: Routes = [
@@ -23,7 +24,7 @@ const myRoutes: Routes = [
 		LoginComponent,
 		LogoffComponent],
   imports: [
-    CommonModule,HttpClientModule,RouterModule.forChild(myRoutes),ReactiveFormsModule
+    CommonModule,HttpClientModule,RouterModule.forChild(myRoutes),ReactiveFormsModule, MaterialModule
   ],
   providers:[UsersService]
 })

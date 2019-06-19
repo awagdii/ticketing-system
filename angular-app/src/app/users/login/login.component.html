@@ -1,19 +1,19 @@
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-  <div>
-    <div class="form-group">
-      <label for="email">E-Mail</label>
-      <input type="text" class="form-control" id="email" formControlName="email">
-      <div *ngIf="!myForm.get('email').valid">
-        Invalid Email
-      </div>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="loginForm">
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-form-field class="loginField">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" type="text" class="form-control" id="email" formControlName="email">
+    </mat-form-field>
+    <div *ngIf="!myForm.get('email').valid">
+      Invalid Email
     </div>
-  </div>
-
-  <div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" formControlName="password">
-  </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Login</button>
-  <br/>
-  <span>{{errorMessge}}</span>
+    <mat-form-field class="loginField">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" class="form-control" id="password" formControlName="password">
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Login</button>
+    <br />
+    <span>{{errorMessge}}</span>
+  </mat-card>
 </form>

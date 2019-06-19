@@ -6,6 +6,8 @@ import {
   FormControl,
   Validators,
   FormBuilder,
+  FormGroupDirective,
+  NgForm,
   FormArray
 } from "@angular/forms";
 import { UsersService } from '../users.service';
@@ -16,6 +18,7 @@ import { TokenService } from '../token.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
   myForm: FormGroup;
   errorMessge = '';
@@ -32,7 +35,6 @@ export class LoginComponent implements OnInit {
     this.myForm.valueChanges.subscribe(
       (data: any) => console.log(data)
     );
-
   }
 
 
