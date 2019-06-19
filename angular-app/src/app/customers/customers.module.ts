@@ -5,6 +5,7 @@ import { CustomersComponent } from './customers.component';
 import { AuthguardGuard } from '../authguard.guard';
 import { FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CustomerService } from './customer.service';
+import { MaterialModule } from '../material-module';
 
 const myRoutes: Routes = [{ path: '', component: CustomersComponent },
 	{ path: 'customers', component: CustomersComponent},
@@ -16,7 +17,8 @@ const myRoutes: Routes = [{ path: '', component: CustomersComponent },
 		CustomersComponent
 	],
 	imports: [
-		CommonModule, RouterModule.forChild(myRoutes), FormsModule, ReactiveFormsModule
+		CommonModule, RouterModule.forChild(myRoutes), FormsModule, ReactiveFormsModule,
+		MaterialModule
 	],
 	providers:[CustomerService]
 })
