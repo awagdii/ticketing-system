@@ -56,12 +56,21 @@ router.get('/', async function (req, res, next) {
 	res.json(data);
 });
 
+/*get resolved tickets for employee id */
+router.get('/resolved/:empid', async function (req, res, next) {
+	empid = req.params.empid;
+	const data = await Ticket.find().where({ status: CONSTS.TICKET_STATUS_RESOLVED, 'assigned_employee.id': empid });
+	res.json(data);
+});
+
 /*get in progress tickets for employee id */
 router.get('/:empid', async function (req, res, next) {
 	empid = req.params.empid;
 	const data = await Ticket.find().where({ status: CONSTS.TICKET_STATUS_IN_PROGRESS, 'assigned_employee.id': empid });
 	res.json(data);
 });
+
+
 
 /*set a ticket as in progress tickets for employee id */
 router.patch('/:empid/:ticketid', async function (req, res, next) {

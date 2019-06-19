@@ -27,14 +27,14 @@ export class EmployeeService {
   // }
 
   getOpenTickets(): Observable<any> {
-    console.log('in getOpenTickets')
     return this.http.get(this.url);
   }
 
   getInProgressTickets(empid): Observable<any> {
-    console.log('assignTicketToEmployee')
-    console.log(this.url+`${empid}`)
     return this.http.get(this.url+`${empid}`);
+  }
+  getResolvedTickets(empid): Observable<any> {
+    return this.http.get(this.url+'resolved/'+`${empid}`);
   }
 
   assignTicketToCurrentEmployee(ticketid, empid): Promise<any> {
