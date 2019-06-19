@@ -7,7 +7,8 @@ import { MaterialModule } from '../material-module';
 import { CustomerService } from './customer.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-customer',
@@ -76,7 +77,7 @@ export class CustomersComponent implements OnInit {
 	displayedColumns: string[] = ['title', 'description', 'status', 'createdAt'];
 	@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-	constructor(private service: CustomerService, private tokenService: TokenService, private fBuilder: FormBuilder) {
+	constructor(private service: CustomerService, private tokenService: TokenService, private fBuilder: FormBuilder, private toastr: ToastrService) {
 		// this.history$ = this.service.getHistory();
 		this.history = new Array();
 		this.service.getHistory().subscribe(
@@ -113,9 +114,13 @@ export class CustomersComponent implements OnInit {
 			result => {
 				this.customerCreateTicket.reset();
 				this.history = this.service.getHistory();
+				this.toastr.success(`Ticket Created Successfully`, 'Congratulations  ..!');
+
 			},
 			error => {
 				console.log("error")
+				this.toastr.error("Something wrong happend try agian later", 'Failed  ..!');
+
 			}
 		);
 	}
