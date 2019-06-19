@@ -21,7 +21,7 @@ export class EmployeesComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   constructor(private myHttp: EmployeeService, private tokenService: TokenService, private toastr: ToastrService) {
     console.log('in constructor');
-   this. getOpenTickets();
+    this.getOpenTickets();
   }
 
   ngOnInit() {
@@ -52,9 +52,7 @@ export class EmployeesComponent implements OnInit {
     let res = await this.myHttp.assignTicketToCurrentEmployee(ticketid, curr_employee_id);
     // console.log(res)
     this.getOpenTickets();
-    if (res.data.success) {
-    console.log(res.data.success);
-
+    if (res.data) {
       this.toastr.success(res.data.success, 'Congratulations  ..!');
 
     } else {
@@ -72,7 +70,7 @@ export interface TicketElement {
   description: string;
   user_name: string;
   status: string;
-  comment:string;
+  comment: string;
   createdAt: string;
   created_by: Object;
 }
